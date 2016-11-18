@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Training</string>
+    <string name="branch_dev">Dev Branch</string>
 </resources>
