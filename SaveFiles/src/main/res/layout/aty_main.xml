@@ -11,8 +11,57 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ncu.aaron.savefiles.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/et_text"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+        android:background="@drawable/edit_text_normal_background"
+        android:gravity="left|top"
+        android:lines="3"/>
+
+    <LinearLayout
+        android:id="@+id/ll_save_internal_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_text"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_save_internal_file"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btn_save_internal_cache_file"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_save_external_file"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_save_internal_file"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_save_external_private_file"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <Button
+            android:id="@+id/btn_save_external_public_file"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_show_action"
+        android:layout_below="@+id/ll_save_external_file"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </RelativeLayout>
