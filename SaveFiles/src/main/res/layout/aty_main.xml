@@ -12,31 +12,39 @@
     tools:context="ncu.aaron.savefiles.MainActivity">
 
     <EditText
-        android:id="@+id/et_text"
+        android:id="@+id/et_file_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/edit_text_normal_background"
         android:gravity="left|top"
-        android:lines="3"/>
+        android:hint="File Content"
+        android:lines="3"
+        />
 
     <LinearLayout
         android:id="@+id/ll_save_internal_file"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/et_text"
+        android:layout_below="@+id/et_file_content"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_save_internal_file"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Save Files on Internal Storage"
+            android:textAllCaps="false"
+            />
 
         <Button
             android:id="@+id/btn_save_internal_cache_file"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Save Cache Files on Internal Storage"
+            android:textAllCaps="false"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -49,19 +57,27 @@
         <Button
             android:id="@+id/btn_save_external_private_file"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Save Private Files on External Storage"
+            android:textAllCaps="false"
+            />
 
         <Button
             android:id="@+id/btn_save_external_public_file"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Save Public Files on External Storage"
+            android:textAllCaps="false"
+            />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_show_action"
-        android:layout_below="@+id/ll_save_external_file"
+        android:id="@+id/tv_show_log"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_save_external_file"
+        android:textAllCaps="false"
+        />
 </RelativeLayout>

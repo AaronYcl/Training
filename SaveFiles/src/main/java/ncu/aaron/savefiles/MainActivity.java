@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,12 +17,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String LOG_TAG = "Training Log Tag";
     private static final int REQUEST_WRITE_ON_EXTERNAL_STORAGE = 0x01;
     private EditText mEtContent;
+    private TextView mTvShowLog;
+    private String mLog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.aty_main);
-        mEtContent = (EditText) findViewById(R.id.et_text);
+        mEtContent = (EditText) findViewById(R.id.et_file_content);
+        mTvShowLog = (TextView) findViewById(R.id.tv_show_log);
         findViewById(R.id.btn_save_internal_file).setOnClickListener(this);
         findViewById(R.id.btn_save_internal_cache_file).setOnClickListener(this);
         findViewById(R.id.btn_save_external_private_file).setOnClickListener(this);
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        mLog = "";
         String content = mEtContent.getText().toString().trim();
         switch (view.getId()) {
             case R.id.btn_save_internal_file:
@@ -58,10 +62,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
         }
+        mTvShowLog.setText(mLog);
     }
 
     private void saveFilesOnInternalStorage(String text) {
-        String fileName = "internalFile";
+        String fileName = "internalFile.txt";
         File file = new File(getFilesDir(), fileName);
 
         FileOutputStream outputStream;
@@ -70,8 +75,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             outputStream = openFileOutput(fileName, MODE_PRIVATE);
             outputStream.write(text.getBytes());
             outputStream.close();
+            mLog = file.getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
+            mLog = "saveFilesOnInternalStorage failed.";
             Log.e(LOG_TAG, "saveFilesOnInternalStorage failed.");
         }
     }
@@ -84,9 +91,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             outputStream = new FileOutputStream(file);
             outputStream.write(text.getBytes());
             outputStream.close();
+            mLog = file.getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
+            mLog = "saveCacheFileOnInternalStorage failed.";
             Log.e(LOG_TAG, "saveCacheFileOnInternalStorage failed.");
+        }
+    }
+
+    private void savePrivateFileOnExternalStorage(String text) {
+        File dir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "PrivateFiles");
+        if (dir.exists() || dir.mkdir()) {
+            Log.e(LOG_TAG, dir.getAbsolutePath());
+            File file = new File(dir, "private_file.txt");
+            FileOutputStream outputStream;
+            try {
+                outputStream = new FileOutputStream(file);
+                outputStream.write(text.getBytes());
+                outputStream.close();
+                mLog = file.getAbsolutePath();
+            } catch (IOException e) {
+                e.printStackTrace();
+                mLog = "savePrivateFileOnExternalStorage failed.";
+                Log.e(LOG_TAG, "savePrivateFileOnExternalStorage failed.");
+            }
+        } else {
+            mLog = "Directory not created.";
+            Log.e(LOG_TAG, "Directory not created.");
         }
     }
 
@@ -96,38 +127,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         File dir = new File(root.getAbsoluteFile() + "/" + dirName);
 //        File dir = new File(Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES), dirName);
         if (dir.exists() || dir.mkdirs()) {
-            Toast.makeText(this, dir.getAbsolutePath(), Toast.LENGTH_LONG).show();
             File file = new File(dir, "public_file.txt");
             FileOutputStream outputStream;
             try {
                 outputStream = new FileOutputStream(file);
                 outputStream.write(text.getBytes());
                 outputStream.close();
+                mLog = file.getAbsolutePath();
             } catch (IOException e) {
                 e.printStackTrace();
+                mLog = "savePublicFileOnExternalStorage failed.";
                 Log.e(LOG_TAG, "savePublicFileOnExternalStorage failed.");
             }
         } else {
+            mLog = "Directory not created.";
             Log.e(LOG_TAG, "Directory not created.");
-            Toast.makeText(this, "Directory not created.", Toast.LENGTH_LONG).show();
-        }
-    }
-
-
-    private void savePrivateFileOnExternalStorage(String text) {
-        File dir = new File(getExternalFilesDir(null), "PrivateFiles");
-        if (!dir.mkdir()) {
-            Log.e(LOG_TAG, "Directory not created.");
-        }
-        File file = new File(dir, "private_file.txt");
-        FileOutputStream outputStream;
-        try {
-            outputStream = new FileOutputStream(file);
-            outputStream.write(text.getBytes());
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e(LOG_TAG, "savePrivateFileOnExternalStorage failed.");
         }
     }
 
